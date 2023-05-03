@@ -16,13 +16,14 @@ if not binding_keys:
     sys.exit(1)
 
 for binding_key in binding_keys:
-    channel.queue_bind(exchange="topic_logs", queue=queue_name, routing_key=binding_key)
+    channel.queue_bind(exchange="topic", queue=queue_name, routing_key=binding_key)
 
-print(" [*] Waiting for logs. To exit press CTRL+C")
+print(" [*] Waiting for image. To exit press CTRL+C")
 
 
 def callback(ch, method, properties, body):
-    print(" [x] %r:%r" % (method.routing_key, body))
+    body.show()
+    #print(" [x] %r:%r" % (method.routing_key, body))
 
 
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
